@@ -22,15 +22,13 @@ def list_files(dir):
             if name.endswith('.mat'):
                 mat_array = scipy.io.loadmat(os.path.join(root, name))
 
-                root2 = root
-                root_new = root2.replace('PZT', 'PZT-CSV')
-                if not os.path.exists(root_new):
-                    os.makedirs(root_new)
+                root_new = root.replace('PZT', 'PZT-CSV')
+                os.makedirs(root_new, exist_ok=True)
 
                 for key, value in mat_array.items():
                     if not key.startswith('_') and isinstance(value, (list, tuple, np.ndarray)):
                         csv_file_path = os.path.join(root_new, f"{name.replace('.mat', '')}_{key}.csv")
-                        print(f"Creating {csv_file_path}")
+                        #print(f"Creating {csv_file_path}")
 
                         # Ensure the array is 1D
                         flattened_data = np.ravel(value)
